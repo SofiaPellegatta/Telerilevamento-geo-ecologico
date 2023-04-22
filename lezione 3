@@ -22,3 +22,66 @@ cl <- colorRampPalette(c("red","orange","yellow"))(100) # 100 è il numero di sf
 plot(l2011, col=cl)
 # ottengo la visualizzazione di ogni banda con questa nuova palette di colori
 
+# vogliamo plottare una sola banda:
+# b1= blu
+# b2= verde
+# b3= rosso
+# b4= NIR (infrarosso vicino)
+plot(l2011[[4]], col=cl) # col=cl per plottarla nella palette di colori scelta da me prima, sennò la plotta nei colori preimpostati
+# altro modo:
+plot(l2011$B4_sre, col=cl) 
+
+# plotto la banda del blu in 3 tonalità di blu presenti nella palette di r:
+clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+plot(l2011$B1_sre, col=clb)
+
+# esportiamo l'immagine appena ricavata, in formato PDF, nella catrtella lab, con la funzione pdf():
+pdf("banda1.pdf")
+plot(l2011$B1_sre, col=clb)
+dev.off() # per chiudere la finestra dove ho plottato la banda, una volta che ho salvato il mio PDF
+# stessa cosa per salvare in png:
+pdf("banda1.png")
+plot(l2011$B1_sre, col=clb)
+
+# come plottare più immagini insieme, ad es più bande: blu e verde
+# intanto creo la mia palette verde per la banda verde
+clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100)
+plot(l2011$B2_sre, col=clg)
+# apriamo un multiframe con la funzione par()
+par(mfrow=c(1,2))
+# inseriamo le bande che vogliamo plottare
+clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+plot(l2011$B1_sre, col=clb)
+clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100)
+plot(l2011$B2_sre, col=clg)
+
+# se voglio esportare in pdf il multiframe:
+pdf("banda 1 e 2".pdf)
+par(mfrow=c(1,2))
+clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+plot(l2011$B1_sre, col=clb)
+clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100)
+plot(l2011$B2_sre, col=clg)
+
+# se voglio plottare invertendo il multiframe:
+par(mfrow=c(2,1))
+clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+plot(l2011[[1]], col=clb)
+clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100) 
+plot(l2011[[2]], col=clg)
+
+# faccio il plot delle prime 4 bande (blu, verde, rosso, NIR)
+par(mfrow=c(2,2))
+# blu
+clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+plot(l2011[[1]], col=clb)
+# verde
+clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100) 
+plot(l2011[[2]], col=clg)
+# rosso
+clr <- colorRampPalette(c("coral3","coral1","coral"))(100) 
+plot(l2011[[3]], col=clr)
+# NIR (viola)
+clnir <- colorRampPalette(c("darkorchid4","darkorchid2","darkorchid4"))(100) 
+plot(l2011[[4]], col=clnir)
+
