@@ -55,10 +55,10 @@ dev.off()
 # richiamiamo la libreria raster, precedentemente installata con install.packages("raster"):
 library(raster)
 
+# creo cartella "lab"
 # scarico i dati su cui voglio lavorare, mettendoli in un percorso corto nel PC: cartella "lab"
-# setto la cartella di lavoro, visto che su R non si possono salvare le immagini raster:
-setwd("C:/Users/sofia/Desktop/lab")
-# NB windows mette le sbarrette invertite
+# setto ogni volta la cartella di lavoro, visto che su R non si possono salvare le immagini raster:
+setwd("C:/Users/sofia/Desktop/lab")   # NB windows mette le sbarrette invertite
 
 # importiamo i dati su R con la funzione brick() e diamo un nome alla funzione: "l2011"
 l2011 <- brick("p224r63_2011_masked.grd")
