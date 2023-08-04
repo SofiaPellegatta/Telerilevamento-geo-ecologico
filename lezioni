@@ -60,8 +60,9 @@ library(raster)
 # setto ogni volta la cartella di lavoro, visto che su R non si possono salvare le immagini raster:
 setwd("C:/Users/sofia/Desktop/lab")   # NB windows mette le sbarrette invertite
 
-# importiamo i dati su R con la funzione brick() e diamo un nome alla funzione: "l2011"
+# importiamo i dati raster su R con la funzione brick() e diamo un nome alla funzione: "l2011"
 l2011 <- brick("p224r63_2011_masked.grd")
+
 # ora che ho importato i dati, digitando il nome assegnato prima, usciranno tutti i dati relativi all'immagine:
 l2011
 
@@ -69,13 +70,15 @@ l2011
 plot(l2011)
 
 # cambiamo la legenda dei colori con la funzione colorRampPalette() (NB attenzione alle maiuscole perchè r è case sensitive)
-# prendiamo i nomi assegnati ai colori su su r: http://r-graph-gallery.com/42-colors-names.html
-# e diamo un nome alla nostra nuova palette per es. "cl":
+# prendiamo i nomi assegnati ai colori su su r: http://r-graph-gallery.com/42-colors-names.html e diamo un nome alla nostra nuova palette per es. "cl":
 cl <- colorRampPalette(c("red","orange","yellow"))(100) # 100 è il numero di sfumature desiderato
-# "col" è l'argomento da inserire nella funzione plot per plottare l'immagine nei colori appena scelti
-plot(l2011, col=cl)
-# ottengo la visualizzazione di ogni banda con questa nuova palette di colori
 
+# "col" è l'argomento da inserire nella funzione plot per plottare l'immagine nei colori appena scelti
+plot(l2011, col=cl) # ottengo la visualizzazione di ogni banda con questa nuova palette di colori
+#---------------------------------------
+
+
+# LEZIONE 4-----------------------------
 # vogliamo plottare una sola banda:
 # b1= blu
 # b2= verde
