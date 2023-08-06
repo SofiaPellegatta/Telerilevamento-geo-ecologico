@@ -78,36 +78,56 @@ plot(l2011, col=cl) # ottengo la visualizzazione di ogni banda con questa nuova 
 #---------------------------------------
 
 
-# LEZIONE 4-----------------------------
-# vogliamo plottare una sola banda:
+# LEZIONE 4 -----------------------------
+# sistemi di riferimento: geoide, ellissoide, ...
+#----------------------------------------
+
+
+# LEZIONE 5 -----------------------------
+# recap:
+library(raster)
+setwd("C:/Users/sofia/Desktop/lab")
+l2011 <- brick("p224r63_2011_masked.grd")
+cl <- colorRampPalette(c("black","grey","ligth grey"))(100) # 100 è il numero di sfumature desiderato
+plot(l2011, col=cl)
+
+# scriviamo il nome associato alle nostre bande
+# bande Landsat:
 # b1= blu
 # b2= verde
 # b3= rosso
 # b4= NIR (infrarosso vicino)
-plot(l2011[[4]], col=cl) # col=cl per plottarla nella palette di colori scelta da me prima, sennò la plotta nei colori preimpostati
-# altro modo:
-plot(l2011$B4_sre, col=cl) 
 
-# plotto la banda del blu in 3 tonalità di blu presenti nella palette di r:
-clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+# vogliamo plottare una sola banda:
+# plotto la banda del blu B1_sre:
+plot(l2011$B1_sre) # plotta per nome
+# lo fa coi colori standard se non specifico una palette diversa
+plot(l2011[[1]]) # per plottare il primo elemento ossia la prima banda
+
+# mettiamo la palette blu per la banda blu
+clb <- colorRampPalette(c("dark blue","blue","light blue"))(100)
 plot(l2011$B1_sre, col=clb)
 
-# esportiamo l'immagine appena ricavata, in formato PDF, nella catrtella lab, con la funzione pdf():
-pdf("banda1.pdf")
+# esportiamo l'immagine appena ricavata in formato PDF nella catrtella lab con la funzione pdf():
+pdf("banda1.pdf") # se non specifico un altro percorso il file si salva nella cartella lab settata con setwd all'inizio
 plot(l2011$B1_sre, col=clb)
 dev.off() # per chiudere la finestra dove ho plottato la banda, una volta che ho salvato il mio PDF
-# stessa cosa per salvare in png:
-pdf("banda1.png")
-plot(l2011$B1_sre, col=clb)
 
-# come plottare più immagini insieme, ad es più bande: blu e verde
+# stessa cosa per salvare in png:
+png("banda1.png") 
+plot(l2011$B1_sre, col=clb)
+dev.off()
+# queste funzioni esportano solo il plottaggio fatto, non un'immagine specifica creata appositamente
+
+# come plottare più immagini insieme, 
+# ad es più bande: blu e verde
 # intanto creo la mia palette verde per la banda verde
 clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100)
 plot(l2011$B2_sre, col=clg)
-# apriamo un multiframe con la funzione par()
-par(mfrow=c(1,2))
+# apriamo un multiframe
+par(mfrow=c(1,2)) # mf = multiframe, row = metto le img su una riga
 # inseriamo le bande che vogliamo plottare
-clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+clb <- colorRampPalette(c("darkblue","blue","light blue"))(100)
 plot(l2011$B1_sre, col=clb)
 clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100)
 plot(l2011$B2_sre, col=clg)
@@ -115,14 +135,14 @@ plot(l2011$B2_sre, col=clg)
 # se voglio esportare in pdf il multiframe:
 pdf("banda 1 e 2".pdf)
 par(mfrow=c(1,2))
-clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+clb <- colorRampPalette(c("darkblue","blue","light blue"))(100)
 plot(l2011$B1_sre, col=clb)
 clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100)
 plot(l2011$B2_sre, col=clg)
 
-# se voglio plottare invertendo il multiframe:
+# se voglio plottare invertendo il multiframe = invece che in riga le immagini stanno in colonna
 par(mfrow=c(2,1))
-clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+clb <- colorRampPalette(c("darkblue","blue","light blue"))(100)
 plot(l2011[[1]], col=clb)
 clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100) 
 plot(l2011[[2]], col=clg)
@@ -130,7 +150,7 @@ plot(l2011[[2]], col=clg)
 # faccio il plot delle prime 4 bande (blu, verde, rosso, NIR)
 par(mfrow=c(2,2))
 # blu
-clb <- colorRampPalette(c("darkblue","blue","cyan"))(100)
+clb <- colorRampPalette(c("darkblue","blue","light blue"))(100)
 plot(l2011[[1]], col=clb)
 # verde
 clg <- colorRampPalette(c("darkgreen","green","lightgreen"))(100) 
@@ -141,6 +161,19 @@ plot(l2011[[3]], col=clr)
 # NIR (viola)
 clnir <- colorRampPalette(c("darkorchid4","darkorchid2","darkorchid4"))(100) 
 plot(l2011[[4]], col=clnir)
+#-----------------------------------------------
+
+
+# LEZIONE 6 ------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 
