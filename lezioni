@@ -159,20 +159,35 @@ plot(l2011[[2]], col=clg)
 clr <- colorRampPalette(c("coral3","coral1","coral"))(100) 
 plot(l2011[[3]], col=clr)
 # NIR (viola)
-clnir <- colorRampPalette(c("darkorchid4","darkorchid2","darkorchid4"))(100) 
+clnir <- colorRampPalette(c("darkorchid4","darkorchid2","plum3"))(100) 
 plot(l2011[[4]], col=clnir)
 #-----------------------------------------------
 
 
 # LEZIONE 6 ------------------------------------
+# richiamo codice utile
+library(raster)
+setwd("C:/Users/sofia/Desktop/lab")
+l2011 <- brick("p224r63_2011_masked.grd")
 
+# ESERCIZIO: plottare solo infrarosso vicino:
+plot(l2011$B4_sre)
+# oppure plot(l2011[[4]])
+# cambio palette:
+clnir <- colorRampPalette(c("darkorchid4","darkorchid2","plum3"))(100)
+plot(l2011$B4_sre, col= clnir)
 
+# vogliamo plottare le 3 bande RGB per riprodurre i colori reali
+plotRGB(l2011, r=3, g=2, b=1, stretch="lin") # stretch aumenta il contrasto dei colori
 
+# per plottare banda NIR devo togliere una delle altre
+plotRGB(l2011, r=4, g=3, b=2, stretch="lin")
 
+# spostiamo il NIR nella componente Green dell'RGB
+plotRGB(l2011, r=3, g=4, b=2, stretch="lin")
 
-
-
-
+# per vedere meglio zone in suolo nudo passiamo NIR nel blu
+plotRGB(l2011, r=3, g=2, b=4, stretch="lin")
 
 
 
