@@ -228,22 +228,28 @@ rpl1992
 
 # facciamo un primo plot dell'immagine
 plotRGB(rpl1992, r=1, g=2, b=3, stretch="lin")
-# banda 1 = NIR, 2 = RED, 3 = GREEN (segue ordine spettro elettromagnetico)
+# banda 1 = NIR 
+# banda 2 = RED 
+# banda 3 = GREEN (segue ordine spettro elettromagnetico)
 
+# ESERCIZIO: importare l'altro file di Rio Peixoto del 2006
+rpl2006 <- brick("defor2_.png")
+rpl2006
 
+# la plottiamo
+plotRGB(rpl2006, r=1, g=2, b=3, stretch="lin")
 
+# multiframe con le due immagini
+par(mfrow=c(2,1))
+plotRGB(rpl1992, r=1, g=2, b=3, stretch="lin")
+plotRGB(rpl2006, r=1, g=2, b=3, stretch="lin")
 
+# DVI = Difference vegetation index
+dvi1992 = rpl1992[[1]] - rpl1992[[2]]
+dvi1992
 
-
-
-
-
-
-
-
-
-
-
+# plottiamo il DVI
+cl <-colorRampPalette(c('darkblue', 'yellow', 'red', 'black'))(100)
 
 
 
