@@ -189,6 +189,68 @@ plotRGB(l2011, r=3, g=4, b=2, stretch="lin")
 # per vedere meglio zone in suolo nudo passiamo NIR nel blu
 plotRGB(l2011, r=3, g=2, b=4, stretch="lin")
 
+# proviamo lo stretch a istogrammi
+plotRGB(l2011, r=3, g=4, b=2, stretch="hist")
+
+# ESERCIZIO: fare un multiframe con sopra il visibile in RGB e stretch lineare, sotto immagine in falso colore con stretch a istogrammi
+par(mfrow=c(2,1))
+plotRGB(l2011, r=3, g=2, b=1, stretch="lin")
+plotRGB(l2011, r=3, g=4, b=2, stretch="hist")
+
+# upload immagine Landsat del 1988
+l1988 <- brick("p224r63_1988_masked.grd")
+l1988 # per visualizzarne i dati
+
+# multiframe con le foto del 1988 e 2011
+par(mfrow=c(2,1))
+plotRGB(l1988, r=4, g=3, b=2, stretch="lin")
+plotRGB(l2011, r=4, g=3, b=2, stretch="lin")
+
+# NDVI misura se una pianta è sana o no
+#----------------------------------------------
+
+
+# LEZIONE 7 -----------------------------------
+# NDVI indice di vegetazione basato sulla differenza tra due bande
+# DVI = riflettanza NIR - riflettanza RED
+
+# lavoriamo con questi indici spettrali
+library(raster) #richiamo libreria che mi serve
+setwd("C:/Users/sofia/Desktop/lab")
+
+# ESERCIZIO: importa le foto del Rio Peixoto
+rpl1992 <- brick("defor1_.png")
+rpl1992
+
+# può servire installare gdal
+# install.packages("rgdal")
+# library(rgdal)
+
+# facciamo un primo plot dell'immagine
+plotRGB(rpl1992, r=1, g=2, b=3, stretch="lin")
+# banda 1 = NIR, 2 = RED, 3 = GREEN (segue ordine spettro elettromagnetico)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
