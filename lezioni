@@ -326,11 +326,29 @@ ndvi2006
 par(mfrow=c(2,1))
 plot(ndvi1992, col = cl)
 plot(ndvi2006, col = cl)
+# valori vicino allo 0 sono quasi sempre suolo nudo
+
+# installo libreria utile per gli indici di vegetazione
+install.packages("RStoolbox") # non c'è per la mia versione, io ho messo:
+install.packages("devtools")
+library(devtools)
 
 
+# indici spettrali automatici con la funzione spectralIndices
+si1992 <- spectralIndices(rpl1992, green=3, red=2, nir=1)
+plot(si1992, col = cl)
+# 2006
+si2006 <- spectralIndices(rpl2006, green=3, red=2, nir=1)
+plot(si2006, col = cl)
 
 
+install.packages("rasterdive")
+library(rasterdiv)
 
-
+# copNDVI è NDVI medio europeo dal 1999 al 2017: più è alto migliore è la condizione degli ecosistemi
+# vediamo com'è:
+plot(copNDVI)
+#-----------------------------------------------------------------------------------------------------------------
+# thu mar 31
 
 
