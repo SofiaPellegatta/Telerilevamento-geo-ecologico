@@ -1,4 +1,4 @@
-# LEZIONE 1 --------------------------------
+# LEZIONE 1 -----------------------------------------------------------------------------------------
 # uso immagini satellitari per misurare parametri geologici, geografici, ecologici ecc...
 # scarico R e lo apro (meglio R rispetto a R studio)
 # blocchi fondamentali per programmare: funzioni e argomenti: funzione = quello che si fa, argomento = quale pacchetto/libreria installare
@@ -9,10 +9,11 @@ install.packages("raster")  # "" per richiamare oggetti esterni a R
 # per richiamare il pacchetto raster dentro R uso la funzione library() del pacchetto base. c'è anche funzione require()
 
 library(raster)
-# ----------------------------------------
+# ----------------------------------------------------------------------------------------------------------
 
 
-# LEZIONE 2 ------------------------------
+
+# LEZIONE 2 --------------------------------------------------------------------------------
 # R si può usare come una calcolatrice
 
 # vediamo come fare un'assegnazione a un oggetto tramite "<-", esempio:
@@ -48,10 +49,11 @@ plot(suo, mam, pch=19, col="blue", cex=3)
 
 # NB se ho problemi con r, per es con la parte grafica, e voglio essere sicura di chiudere tutte le finestre grafiche, uso la funzione dev.off()
 dev.off()
-# ------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------
 
 
-# LEZIONE 3 --------------------------------
+
+# LEZIONE 3 ---------------------------------------------------------------------------------------------------------
 # richiamiamo la libreria raster, precedentemente installata con install.packages("raster"):
 library(raster)
 
@@ -75,15 +77,17 @@ cl <- colorRampPalette(c("red","orange","yellow"))(100) # 100 è il numero di sf
 
 # "col" è l'argomento da inserire nella funzione plot per plottare l'immagine nei colori appena scelti
 plot(l2011, col=cl) # ottengo la visualizzazione di ogni banda con questa nuova palette di colori
-#---------------------------------------
+#-------------------------------------------------------------------------------------------------------------------
 
 
-# LEZIONE 4 -----------------------------
+
+# LEZIONE 4 --------------------------------------------------------------------------------------------------
 # sistemi di riferimento: geoide, ellissoide, ...
-#----------------------------------------
+#-------------------------------------------------------------------------------------------------------------
 
 
-# LEZIONE 5 -----------------------------
+
+# LEZIONE 5 ---------------------------------------------------------------------------------------------
 # recap:
 library(raster)
 setwd("C:/Users/sofia/Desktop/lab")
@@ -161,10 +165,11 @@ plot(l2011[[3]], col=clr)
 # NIR (viola)
 clnir <- colorRampPalette(c("darkorchid4","darkorchid2","plum3"))(100) 
 plot(l2011[[4]], col=clnir)
-#-----------------------------------------------
+#-----------------------------------------------------------------------------------------------------
 
 
-# LEZIONE 6 ------------------------------------
+
+# LEZIONE 6 ------------------------------------------------------------------------------------------
 # richiamo codice utile
 library(raster)
 setwd("C:/Users/sofia/Desktop/lab")
@@ -207,10 +212,11 @@ plotRGB(l1988, r=4, g=3, b=2, stretch="lin")
 plotRGB(l2011, r=4, g=3, b=2, stretch="lin")
 
 # NDVI misura se una pianta è sana o no
-#----------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 
 
-# LEZIONE 7 -----------------------------------
+
+# LEZIONE 7 -----------------------------------------------------------------------------------------------------------
 # NDVI indice di vegetazione basato sulla differenza tra due bande
 # DVI = riflettanza NIR - riflettanza RED
 
@@ -248,9 +254,78 @@ plotRGB(rpl2006, r=1, g=2, b=3, stretch="lin")
 dvi1992 = rpl1992[[1]] - rpl1992[[2]]
 dvi1992
 
-# plottiamo il DVI
+# plottiamo il DVI 1992
 cl <-colorRampPalette(c('darkblue', 'yellow', 'red', 'black'))(100)
+plot(dvi1992, col = cl)
 
+# DVI 2006
+dvi2006 = rpl2006[[1]] - rpl2006[[2]]
+dvi2006
+plot(dvi2006, col = cl)
+
+# DVI usando i nomi delle bande invece che l'elemento
+dvi1992 = rpl1992$defor1_.1 - rpl1992$defor1_.2
+dvi1992
+
+# variazione DVI nel tempo:
+dvi_dif = dvi1992 - dvi2006
+cld <- colorRampPalette(c('blue', 'white', 'red'))(100)
+plot(dvi_dif, col = cld)
+# rosso = alta differenza di DVI, ossia negli anni c'è stata molta deforestazione
+#----------------------------------------------------------------------------------------------------------------------
+
+
+
+# LEZIONE 8 -----------------------------------------------------------------------------------------------------------
+# NDVI indice che normalizza/standardizza il DVI sulla somma delle due bande
+# utile per confrontare anche immagini di dimensioni diverse (n bit diverso):
+# risoluzione radiometrica = quanti bit ci sono all'interno di un'immagine
+# 2^8 = 256, 2^6 = 65536 bit
+
+# 8 bit:
+# DVI max = 255 - 0 = 255
+# DVI min = 0 - 255 = -255
+# range DVI 8 bit: -255 a 255
+# NDVI 8 bit:
+# max = (255 - 0)/(255 + 0) = 1
+# min = (0 - 255)/(0 + 255) = -1
+# range NDVI 8 bit: -1 a 1
+
+# 16 bit:
+# range DVI 16 bit: -65535 a 65535
+# NDVI 16 bit:
+# max = (65535 - 0) / (65535 + 0) = 1
+# min = (0 - 65535) / (0 + 65535) = -1
+# range NDVI 8 bit: -1 a 1
+
+# carichiamo libreria che serve per calcolo NDVI:
+install.packages("rgdal")
+library(rgdal)
+setwd("C:/Users/sofia/Desktop/lab")
+rpl1992 <- brick("defor1_.png") # funzione brick carica un intero blocco di bande
+rpl2006 <- brick("defor2_.png")
+
+# NDVI 1992
+ndvi1992 = (rpl1992[[1]] - rpl1992[[2]]) / (rpl1992[[1]] + rpl1992[[2]])
+ndvi1992
+
+# plot NDVI 1992
+cl <-colorRampPalette(c('darkblue', 'yellow', 'red', 'black'))(100)
+plot(ndvi1992, col = cl)
+
+# multiframe con plotRGB immagine sopra e NDVI 1992 sotto
+par(mfrow=c(2,1))
+plotRGB(rpl1992, r=1, g=2, b=3, stretch="lin")
+plot(ndvi1992, col = cl)
+
+# NDVI 2006
+ndvi2006 = (rpl2006[[1]] - rpl2006[[2]]) / (rpl2006[[1]] + rpl2006[[2]])
+ndvi2006
+
+# multiframe con NDVI 1992 sopra e NDVI 2006 sotto
+par(mfrow=c(2,1))
+plot(ndvi1992, col = cl)
+plot(ndvi2006, col = cl)
 
 
 
