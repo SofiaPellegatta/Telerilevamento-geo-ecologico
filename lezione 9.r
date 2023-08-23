@@ -99,3 +99,51 @@ plotRGB(gc, r=1, g=2, b=3, stretch="hist")
 #--------------------------------------------------------------------
 
 
+# LEZIONE 11 --------------------------------------------------------
+# land cover
+library(raster)
+library(RStoolbox) # per la classificazione
+setwd("C:/Users/sofia/Desktop/lab")
+l1992 <- brick("defor1_.png")
+# NIR 1
+# R 2
+# G 3
+plotRGB(l1992, 1, 2, 3, stretch = "lin")
+
+# importa defor2 e plotta entrambe le immagini insieme
+l2006 <- brick("defor2_.png")
+par(mfrow=c(2,1))
+plotRGB(l1992, 1, 2, 3, stretch = "lin")
+plotRGB(l2006, 1, 2, 3, stretch = "lin")
+----------------------------------------------------------------------------------------------------
+# ggplot2 pacchetto per visualizzare i dati in modo più carino (ha anche un libro gratuito)
+install.packages("ggplot2")
+library(ggplot2)
+ggRGB(l1992, 1, 2, 3, stretch = "lin")
+ggRGB(l2006, 1, 2, 3, stretch = "lin")
+
+# pacchetto per unire due plot:
+install.packages("patchwork")
+library(patchwork)
+p92 <- ggRGB(l1992, 1, 2, 3, stretch = "lin")
+p06 <- ggRGB(l2006, 1, 2, 3, stretch = "lin")
+p1 + p2 # immagini una accanto all'altra
+p1/p2 # immagini una sopra l'altra
+
+# classificazione immagine 1992
+l92c <- unsuperClass(l1992, nClasses = 2)
+l92c
+plot(l92c$map)
+# class 1: forest  
+# class 2: agricultural areas + water
+
+# classificazione immagine 2006
+l06c <- unsuperClass(l2006, nClasses = 2)
+l06c
+plot(l06c$map)
+# class 1: forest
+# class 2: agricultural areas + water
+
+# calcolo FREQUENZA dei pixel appartenenti alla classe foresta nelle due immagini
+freq(l92c$map)
+riporta come commento i risultati
