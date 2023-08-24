@@ -41,6 +41,7 @@ plotRGB(greenland, r=1, g=2, b=3, stretch = "lin") # plot RGB dei primi 3 elemen
 #------------------------------------------------------------------
 
 
+
 # LEZIONE 10 ------------------------------------------------------
 # analisi temporale dei livelli di azoto durante il lockdown
 library(raster)
@@ -99,6 +100,7 @@ plotRGB(gc, r=1, g=2, b=3, stretch="hist")
 #--------------------------------------------------------------------
 
 
+
 # LEZIONE 11 --------------------------------------------------------
 # land cover
 library(raster)
@@ -115,7 +117,7 @@ l2006 <- brick("defor2_.png")
 par(mfrow=c(2,1))
 plotRGB(l1992, 1, 2, 3, stretch = "lin")
 plotRGB(l2006, 1, 2, 3, stretch = "lin")
-----------------------------------------------------------------------------------------------------
+
 # ggplot2 pacchetto per visualizzare i dati in modo più carino (ha anche un libro gratuito)
 install.packages("ggplot2")
 library(ggplot2)
@@ -127,8 +129,8 @@ install.packages("patchwork")
 library(patchwork)
 p92 <- ggRGB(l1992, 1, 2, 3, stretch = "lin")
 p06 <- ggRGB(l2006, 1, 2, 3, stretch = "lin")
-p1 + p2 # immagini una accanto all'altra
-p1/p2 # immagini una sopra l'altra
+p92 + p06 # immagini una accanto all'altra
+p92/p06 # immagini una sopra l'altra
 
 # classificazione immagine 1992
 l92c <- unsuperClass(l1992, nClasses = 2)
@@ -141,9 +143,93 @@ plot(l92c$map)
 l06c <- unsuperClass(l2006, nClasses = 2)
 l06c
 plot(l06c$map)
-# class 1: forest
-# class 2: agricultural areas + water
+# class 1: agricultural areas + water
+# class 2: forest
 
 # calcolo FREQUENZA dei pixel appartenenti alla classe foresta nelle due immagini
 freq(l92c$map)
-riporta come commento i risultati
+# value  count
+# [1,]     1 307259 for
+# [2,]     2  34033 agr
+freq(l06c$map)
+#  value  count
+# [1,]     1 164906 agr
+# [2,]     2 177820 for
+#-------------------------------------------------------------------------------------------
+
+
+
+# LZIONE 12 ---------------------------------------------------------------------------------
+# ANALISI PATTERN SPAZIALI
+library(raster)
+library(ggplot2)
+library(patchwork)
+library(RStoolbox)
+setwd("C:/Users/sofia/Desktop/lab")
+l1992 <- brick("defor1_.png")
+l2006 <- brick("defor2_.png")
+ggRGB(l1992, 1, 2, 3, stretch = "lin")
+ggRGB(l2006, 1, 2, 3, stretch = "lin")
+
+# percentuali 1992
+# percentuale area foreste nel 1992
+pix92 <- 341292
+proporz92_for <- 307259 / pix92
+proporz92_for # = 0.9002819
+perc92_for <- (307259 / pix92) * 100
+perc92_for # = 90.02819
+
+# esercizio: percentuale aree agricole nel 1992
+proporz92_agr <- 34033 / pix92
+proporz92_agr # = 0.09971813 
+perc92_agr <- (34033 / pix92) * 100
+perc92_agr # = 9.971813
+# oppure
+perc92_agr <- 100 - perc92_for
+
+# percentuali 2006
+# foresta
+pix06 <- 342726
+perc06_for <- 177820 / pix06 * 100
+perc06_for # = 51.88401
+
+# agricolo
+perc06_agr <- 100 - perc06_for
+perc06_agr # = 48.11599
+
+# RECAP DATI:
+# percentuale foresta 92 = 90.02819
+# percentuale agricola 92 = 9.971813
+# percentuale foresta 06 = 51.88401
+# percentuale agricola 06 = 48.11599
+
+# creiamo un DATAFRAME = una tabella coi dati ricavati
+# colonne
+Classe <- c("Foresta", "Agricoltura")
+percent_1992 <- c(90.02819, 9.971813)
+percent_2006 <- c(51.88401, 48.11599)
+multitemp <- data.frame(Classe, percent_1992, percent_2006)
+multitemp
+View(multitemp)
+# 1992 istogramma
+ggplot(multitemp, aes(x=Classe, y=percent_1992, color=Classe)) +
+geom_bar(stat="identity", fill="blue")
+
+# 2006 istogramma
+ggplot(multitemp, aes(x=Classe, y=percent_2006, color=Classe)) +
+geom_bar(stat="identity", fill="blue")
+
+# pdf
+pdf("istogramma_1992.pdf")
+ggplot(multitemp, aes(x=Classe, y=percent_1992, color=Classe)) +
+geom_bar(stat="identity", fill="blue")
+
+dev.off()
+
+# pdf
+pdf("istogramma_2006.pdf")
+ggplot(multitemp, aes(x=Classe, y=percent_2006, color=Classe)) +
+geom_bar(stat="identity", fill="blue")
+dev.off()
+
+- 18
