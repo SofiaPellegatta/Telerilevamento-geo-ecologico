@@ -232,4 +232,68 @@ ggplot(multitemp, aes(x=Classe, y=percent_2006, color=Classe)) +
 geom_bar(stat="identity", fill="blue")
 dev.off()
 
-- 18
+# MISURA DELLA VARIABILITA' NELLO SPAZIO
+install.packages("viridis")
+#----------------------------------------------------------------------------------
+
+
+
+# LEZIONE 13 ----------------------------------------------------------------------
+# VARIABILITA'
+# variazioni nella roccia e nel land cover
+library(raster)
+library(RStoolbox)
+library(ggplot2)
+library(viridis)
+setwd("C:/Users/sofia/Desktop/lab")
+
+# esercizio: importa immagine Similaun
+sim <- brick("sentinel.png")
+
+# esercizio: plotta immagine con funzione ggplot2
+ggRGB(sim, 1, 2, 3, stretch="lin") 
+# ggplot plotta immagine anche senza mettere "stretch":
+ggRGB(sim, 1, 2, 3)
+# bande diverse:
+ggRGB(sim, 2, 1, 3)
+# plottiamole insieme:
+library(patchwork)
+sim1 <- ggRGB(sim, 1, 2, 3)
+sim2 <- ggRGB(sim, 2, 1, 3)
+sim1 + sim2
+
+# la variabilità si calcola usando una finestra mobile che si sposta lungo l'immagine
+
+# calcoliamo la VARIABILITA' DEL NIR con finesta 3x3
+nir <- sim[[1]]
+plot(nir)
+sd_nir <- focal(nir, matrix(1/9, 3, 3), fun=sd)
+clsd <- colorRampPalette(c('blue', 'green', 'pink', 'magenta', 'orange', 'brown', 'red', 'yellow'))(100)
+plot(sd_nir, col=clsd)
+# ggplot del singolo raster (non RGB)
+ggplot() + 
+geom_raster(sd_nir, mapping=aes(x=x, y=y, fill=layer))
+# proviamo il plot con viridis:
+ggplot() + 
+geom_raster(sd_nir, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis() +
+ggtitle("deviazione standard con viridis")
+# cividis
+ggplot() + 
+geom_raster(sd_nir, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis(option = "cividis") +
+ggtitle("deviazione standard con cividis")
+# magma
+ggplot() + 
+geom_raster(sd_nir, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis(option = "magma") +
+ggtitle("deviazione standard con magma")
+
+# VARIABILITA' con finestra 7x7
+nir <- sim[[1]]
+sd7_nir <- focal(nir, matrix(1/49, 7, 7), fun=sd)
+ggplot() + 
+geom_raster(sd7_nir, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis(option = "magma") +
+ggtitle("deviazione standard con magma 7x7")
+#-------------------------------------------------------------------------------------------------
