@@ -1,32 +1,26 @@
-# LEZIONE 16 ------------------------------------------------------------------------------------------
-# un cartogramma distorce le forme di una carta in base a una determinata variabile
+% LEZIONE 16 ------------------------------------------------------------------------------------------
+% un cartogramma distorce le forme di una carta in base a una determinata variabile
 
-# DA R A LaTeX:
-# R:
-# funzione(argomento1, argomento2, ...)
-# commento
-
-# latex:
-\funzione{}
+% DA R A LaTeX:
+% R:
+% funzione(argomento1, argomento2, ...)
 % commento
 
-# in R
-# library(package)
-# in latex
-\usepackage{graphicx}
-
-% \function{}
-% % per commentare
+% latex: ---------------
+% \function{} per le funzioni
+% per commentare
 
 \documentclass[a4paper, 12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{float}
 \usepackage{color} % per cambiare colore
-\usepackage{hyperref}
+\usepackage{hyperref} % commentalo se non vuoi i rettangoli colorati nel pdf quando lo importi.
 \usepackage{lineno}
 \linenumbers
 \usepackage{listings}
 \usepackage{natbib}
+\usepackage{setspace}
 
 % tr <- textcolor(red)
 \newcommand{\tr}{\textcolor{red}}
@@ -37,13 +31,27 @@
 \begin{document}
 
 \maketitle
+\doublespacing
 \tableofcontents
 % abstract
+\begin{abstract}
+    Forest structure is an essential part of biodiversity and ecological analysis and provides crucial insights to address
+challenges in these areas. Modern sensor technologies unlock new possibilities for more advanced vegetation
+monitoring. This study examines the potential of single high resolution X-band synthetic aperture radar (SAR)
+and optical images for pixel-wise mapping of four forest structure attributes (height, average height, fractional
+cover, and density) at a striking 0.5 m resolution. The study site is situated in Western Norway, hosting trees from
+flatlands to elevated mountainous areas and in-between. The proposed model architecture, called PSE-UNet, is a
+modified UNet incorporating key components from state-of-the-art deep learning from the field of forest struc
+ture monitoring. A comparative analysis involving state-of-the-art models shows promising results with MAE%
+between 21.5 and 24.7, depending on the variable.
+\end{abstract}
 % keywords
+\textbf{Keywords: biodiversity; geology; remote sensing}
+
+
+
 % introduzione, sempre con lo scopo esposto alla fine
-
-
-\section{Introduction}
+\section{Introduction}\label{introduction}
 Remote Sensing of Environment \textcolor{red}{(RSE)} serves the Earth observation community with the publication of results on the theory, science, applications, and technology of studies contributing to advance the science of remote sensing. Thoroughly interdisciplinary, \tr{RSE} publishes on terrestrial, oceanic and atmospheric sensing. 
 % \noindent se non vuoi che andando a capo metta la rientranza
 
@@ -57,11 +65,11 @@ The main contribution should be the remote sensing component, rather than invest
 \bigskip
 Papers dealing with single study sites are welcome, although the sites should be representative of broad conditions suitable for drawing conclusions of interest to the international audience of this journal. Studies based on close-range sensing (hand-held, IoT, UAV) are welcome if they show sufficient advances in RS methodology which can be generalized for large-area applications.
 
-
+\newpage
 \section{Study area}
 % come inserire un'immagine
 Review Articles should provide a thorough review of the current state-of-the-art of an important subject in remote sensing, by providing insights and perspectives on the trends, with a synthesis of previous work beyond literature compilation or bibliometric studies (Figure \ref{fig: monte}).
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{monte_catalfano.jpg}
 \caption{Monte Catalfano}
@@ -70,12 +78,25 @@ Review Articles should provide a thorough review of the current state-of-the-art
 
 
 \section{Methods}
-Scientists use a dynamic, open-ended process to investigate questions. Here are the five steps.
-1. Define a Question to Investigate.
-2. Make Predictions
-3. Gather Data
-4. Analyze the Data
-5. Draw Conclusions
+Scientists use a dynamic, open-ended process to investigate questions. Here are the five steps:
+\begin{itemize}
+    \item Define a Question to Investigate.
+    \item Make Predictions
+    \item Gather Data
+    \item Analyze the Data
+    \item Draw Conclusions
+\end{itemize}
+Forest structure is an essential part of biodiversity and ecological analysis and provides crucial insights to address
+challenges in these areas. Modern sensor technologies unlock new possibilities for more advanced vegetation
+monitoring.
+%elenco numerato:
+\begin{enumerate}
+    \item Define a Question to Investigate.
+    \item Make Predictions
+    \item Gather Data
+    \item Analyze the Data
+    \item Draw Conclusions
+\end{enumerate}
 
 
 \subsection{Formulas}
@@ -87,7 +108,7 @@ F = \frac {\sqrt[3]{G \times \frac{m_{1} \times m_{2}}{d^{2}}}}{-\sum_{i=1}^{10}
 \end{equation}
 
 % mettiamo una formula direttamente nel testo:
-bla bla $F = G \times m_{1} \times \mu$.
+formula applicata $F = G \times m_{1} \times \mu$.
 
 \subsection{Codes}
 Code used:
@@ -97,8 +118,34 @@ Il risultato della percentuale di cadmio è 15\%.
 questi risultati sono stati ottenuti dall'equazione \ref{eq: newton}.
 
 \section{Discussion}
+As stated in section \ref{introduction}.
+I nostri risultati sono in linea con quanto affermato dalle precedenti ricerche sulla biodiversità \citep{Rocchini_2000, Becker_2023}.
+%\cite{Rocchini(2000)} se vuoi venga scritto il cognome e poi l'anno tra parentesi.
+% oppure:
+\citet{Rocchini_2000} dice che bla bla bla.
+Si è scoperto che gli asini volano \citep{Astola_2019}.
 
 
+
+\begin{thebibliography}{999}
+\bibitem[Astola et al.(2019)]{Astola_2019}
+Heikki Astola, Tuomas Häme, Laura Sirro, Matthieu Molinier, Jorma Kilpi,
+Comparison of Sentinel-2 and Landsat 8 imagery for forest variable prediction in boreal region,
+Remote Sensing of Environment,
+Volume 223,
+2019,
+Pages 257-273.
+\url{https://doi.org/10.1016/j.rse.2019.01.019}
+\bibitem[Becker et al.(2023)]{Becker_2023}
+Alexander Becker, Stefania Russo, Stefano Puliti, Nico Lang, Konrad Schindler, Jan Dirk Wegner,
+Country-wide retrieval of forest structure from optical and SAR satellite imagery with deep ensembles,
+ISPRS Journal of Photogrammetry and Remote Sensing,
+Volume 195,
+2023,
+Pages 269-286.
+\url{https://doi.org/10.1016/j.isprsjprs.2022.11.011}
+\bibitem[Rocchini(2000)]{Rocchini_2000}
+Rocchini D., Marchetto E., Rossi G. (2000). Remote sensing. Methods in Ecology, 12: 35-48.
+\end{thebibliography}
 
 \end{document}
-#---------------------------------------------------------------------------------------------
