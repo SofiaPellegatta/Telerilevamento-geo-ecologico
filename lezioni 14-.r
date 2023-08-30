@@ -188,7 +188,84 @@ plot(point_cloud)
 
 
 
-# LEZIONE 17 -------------------------------------------------------------------------------------
+# LEZIONE 18 -------------------------------------------------------------------------------------
+# SPECIES DISTRIBUTION MODELLING SDM
 install.packages("sdm")
 library(sdm)
-#--------------------------------------------------------------------------------------------------
+library(raster)
+library(rgdal)
+
+
+# oggi non usiamo setwd perchè usiamo un file di sistema preso dalla libreria sdm
+file <- system.file("external/species.shp", package = "sdm")
+file
+species <- shapefile(file)
+species
+plot(species, pch = 19)
+species$Occurrence # nel dataset è presente Occurrence, file con dentro 0 e 1 in base alla
+# presenza o assenza delle specie nelle varie zone
+# plottiamo le occorrenze = 1  in un modo e quelle = 0 in un altro:
+occ <- species$Occurrence
+plot(species[occ == 1,], col = "blue", pch = 19)
+points(species[occ == 0,], col = "red", pch = 19) # points funzione per aggiungere i punti
+# al grafico già plottato
+# inseriamo i predittori = mappe che riguardano fattori climatici/ambientali che governano la
+# distribuzione di una certa specie:
+path <- system.file("external", package = "sdm")
+path
+# in questo caso i predittori sono 4 file (.asc): elevation, precipitation, temperature e vegetation
+lst <- list.files(path = path, pattern = 'asc$', full.names = T)
+# full.names conserva il percorso completo e scongiura problemi in caso di omonimia tra file nel pc
+lst
+# ora non serve importare i file con brick perchè sono già dentro il pacchetto,
+# ma dobbiamo fare lo stack
+stack(lst) # ora abbiamo lo stack di 4 file invece delle solite bande
+cl <- colorRampPalette(c('blue', 'orange', 'red', 'white'))(100)
+pred <- stack(lst) # pred = predittori (ci aiutano a prevedere dove sarà la specie)
+plot(pred, col = cl)
+
+# plottiamo insieme predittori e presenza delle specie:
+elev <- pred$elevation
+prec <- pred$precipitation
+temp <- pred$temperature
+vege <- pred$vegetation
+
+plot(elev, col = cl)
+points(species[occ == 1,], col = "green", pch = 19)
+
+plot(prec, col = cl)
+points(species[occ == 1,], col = "green", pch = 19)
+
+plot(temp, col = cl)
+points(species[occ == 1,], col = "green", pch = 19)
+
+plot(vege, col = cl)
+points(species[occ == 1,], col = "green", pch = 19)
+
+# costruiamo un MODELLO lineare per spiegare questa distribuzione in base a quei 4 predittori in modo da prevedere dove 
+# troveremo la specie
+# dati
+datasdm <- sdmData(train = species, predictors = pred)
+datasdm
+# funzione che stima i coefficienti da dare ai parametri per stabilizzare la funzione (linea) finale nel grafico:
+m1 <- sdm(Occurrence ~ elevation + precipitation + temperature + vegetation, data = datasdm, methods = "glm")
+m1
+
+# previsione: sulla base del modello m1 R ci dirà dove è più probabile trovare la spiecie
+p1 <- predict(m1, newdata = pred)
+p1 # file raster finale
+
+# output:
+plot(p1, col = cl)
+points(species[occ == 1,], pch = 19)
+
+par(mfrow = c(2, 3))
+plot(p1, col = cl)
+plot(elev, col = cl)
+plot(prec, col = cl)
+plot(temp, col = cl)
+plot(vege, col = cl)
+
+# oppure
+final <- stack(pred, p1)
+plot(final, col = cl)
