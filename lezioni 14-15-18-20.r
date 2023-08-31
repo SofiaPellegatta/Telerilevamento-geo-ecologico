@@ -273,3 +273,64 @@ plot(final, col = cl)
 
 
 
+# LEZIONE 20 -----------------------------------------------------------------
+# COLORIST
+install.packages("colorist")
+library(colorist)
+library(ggplot2)
+
+# ESEMPIO: mappiamo distribuzione specie ciclo annuale, da esempio già presente nel pacchetto data
+data("fiespa_occ") # uccelli
+fiespa_occ # colorist lavora solo con raster stack, no altri tipi di file
+
+# creiamo le METRICHE
+met1 <- metrics_pull(fiespa_occ)
+
+# PALETTE
+pal <- palette_timecycle(fiespa_occ)
+
+# MAPPA multipla
+map_multiples(met1, pal, ncol = 3, labels = names(fiespa_occ)) # plotta le 12 mappe dei mesi e la distribuzione
+map_single(met1, pal, layer = 6) # plotta il singolo mese
+
+# cambiare colore mappe:
+p1 <- palette_timecycle(12, start_hue = 60)
+map_multiples(met1, p1, labels = names(fiespa_occ), ncol = 4)
+
+# unione layer
+met1d <- metrics_distill(fiespa_occ)
+map_single(met1d, pal)
+# parti grigie = parti a bassa specificità = specie presenti nei punti grigi per la maggior parte dei mesi
+
+# LEGENDA
+legend_timecycle(pal, origin_label = "1 jan")
+
+# ESEMPIO: mappare comportamendo individuale di un individuo nel tempo
+data("fisher_ud")
+m2 <- metrics_pull(fisher_ud)
+pal2 <- palette_timeline(fisher_ud)
+head(pal2)
+
+# creazione mappa multipla
+map_multiples(m2, pal2, ncol = 3) # fattore lambda 
+map_multiples(m2, pal2, ncol = 3, lambda_i = -12) # -12 coefficiente a cui lambda è > e quindi mappa si satura
+
+m2_distill <- (metrics_distill(fisher_ud))
+# creiamo la mappa singola
+map_single(m2_distill, pal2, lambda_i = -10)
+
+legend_timeline(pal2)
+
+# github ludovico chieffallo
+
+
+# COME SVILUPPARE LA PROPRIA FUNZIONE
+# struttura base di una funzione:
+# 1 - nome
+# 2 - argomenti = valori usati all'interno della funzione 
+# 3 - corpo = codice nella funzione
+
+
+
+
+
