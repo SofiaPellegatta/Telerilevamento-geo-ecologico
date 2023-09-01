@@ -329,7 +329,7 @@ plot(ndvi2006, col = cl)
 # valori vicino allo 0 sono quasi sempre suolo nudo
 
 # installo libreria utile per gli indici di vegetazione
-install.packages("RStoolbox") # non c'è per la mia versione, io ho messo:
+install.packages("RStoolbox") 
 install.packages("devtools")
 library(devtools)
 
