@@ -36,8 +36,8 @@ summary(sim_pca$model)
 #Proportion of Variance  0.6736804  0.3225753 0.003744348      0
 #Cumulative Proportion   0.6736804  0.9962557 1.000000000      1
 
-# => bastano due bande per spiegare il 99% del sistema originario
-# noi però calcoleremo la variabilità su una sola componente, quindi ci accontenteremo della 1 col 67%
+# => bastano due bande per spiegare il 99% del sistema originario (comp 2 + comp 2)
+# noi però calcoleremo la variabilità su una sola componente, quindi ci accontenteremo della 1 col 67% (comp 1)
 
 # plot 3 bande (componenti)
 plot(sim_pca$map) 
