@@ -210,6 +210,22 @@ path <- "C:/Users/sofia/Desktop/prova/l1991_63.tif"
 writeRaster(l1991_63, filename = path, format = "GTiff")
 plotRGB(l1991_63, r=3, g=2, b=1, stretch="lin")
 
+# IMMAGINE 1991 ROW 64 ------------------------
+B1_blue <- raster("C:/Users/sofia/Desktop/prova/1991/LT05_L2SP_224064_19910722_20200915_02_T1_SR_B1.tif")
+B2_green <- raster("C:/Users/sofia/Desktop/prova/1991/LT05_L2SP_224064_19910722_20200915_02_T1_SR_B2.tif")
+B3_red <- raster("C:/Users/sofia/Desktop/prova/1991/LT05_L2SP_224064_19910722_20200915_02_T1_SR_B3.tif")
+B4_nir <- raster("C:/Users/sofia/Desktop/prova/1991/LT05_L2SP_224064_19910722_20200915_02_T1_SR_B4.tif")
+
+# combino le bande in un raster a 4 layer
+l1991_64 <- stack(B1_blue, B2_green, B3_red, B4_nir)
+l1991_64
+
+# salvo il file ottenuto
+path <- "C:/Users/sofia/Desktop/prova/l1991_64.tif"
+writeRaster(l1991_64, filename = path, format = "GTiff")
+plotRGB(l1991_64, r=3, g=2, b=1, stretch="lin")
+
+
 # IMMAGINE 1989 ROW 63 ------------------------
 B1_blue <- raster("C:/Users/sofia/Desktop/prova/1989-88/LT05_L2SP_224063_19890902_20200916_02_T1_SR_B1.tif")
 B2_green <- raster("C:/Users/sofia/Desktop/prova/1989-88/LT05_L2SP_224063_19890902_20200916_02_T1_SR_B2.tif")
