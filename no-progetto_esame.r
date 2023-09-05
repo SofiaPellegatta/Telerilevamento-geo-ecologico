@@ -239,3 +239,36 @@ l1989_63
 path <- "C:/Users/sofia/Desktop/prova/l1989_63.tif"
 writeRaster(l1989_63, filename = path, format = "GTiff")
 plotRGB(l1989_63, r=3, g=2, b=1, stretch="lin")
+
+
+
+#########
+# IMMAGINE 2016 ROW 63 ------------------------
+B2_blue <- raster("C:/Users/sofia/Desktop/prova/2016/LC08_L2SP_224063_20160726_20200906_02_T1_SR_B2.tif")
+B3_green <- raster("C:/Users/sofia/Desktop/prova/2016/LC08_L2SP_224063_20160726_20200906_02_T1_SR_B3.tif")
+B4_red <- raster("C:/Users/sofia/Desktop/prova/2016/LC08_L2SP_224063_20160726_20200906_02_T1_SR_B4.tif")
+B5_nir <- raster("C:/Users/sofia/Desktop/prova/2016/LC08_L2SP_224063_20160726_20200906_02_T1_SR_B5.tif")
+
+# combino le bande in un raster a 4 layer
+l2016_63 <- stack(B2_blue, B3_green, B4_red, B5_nir)
+l2016_63
+
+# salvo il file ottenuto
+path <- "C:/Users/sofia/Desktop/prova/l2016_63.tif"
+writeRaster(l2016_63, filename = path, format = "GTiff")
+plotRGB(l2016_63, r=3, g=2, b=1, stretch="lin")
+
+# IMMAGINE 2016 ROW 64 ------------------------
+B2_blue <- raster("C:/Users/sofia/Desktop/prova/2016/LC08_L2SP_224064_20160726_20200906_02_T1_SR_B2.tif")
+B3_green <- raster("C:/Users/sofia/Desktop/prova/2016/LC08_L2SP_224064_20160726_20200906_02_T1_SR_B3.tif")
+B4_red <- raster("C:/Users/sofia/Desktop/prova/2016/LC08_L2SP_224064_20160726_20200906_02_T1_SR_B4.tif")
+B5_nir <- raster("C:/Users/sofia/Desktop/prova/2016/LC08_L2SP_224064_20160726_20200906_02_T1_SR_B5.tif")
+
+# combino le bande in un raster a 4 layer
+l2016_64 <- stack(B2_blue, B3_green, B4_red, B5_nir)
+l2016_64
+
+# salvo il file ottenuto
+path <- "C:/Users/sofia/Desktop/prova/l2016_64.tif"
+writeRaster(l2016_64, filename = path, format = "GTiff")
+plotRGB(l2016_64, r=3, g=2, b=1, stretch="lin")

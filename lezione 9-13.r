@@ -211,6 +211,7 @@ percent_2006 <- c(51.88401, 48.11599)
 multitemp <- data.frame(Classe, percent_1992, percent_2006)
 multitemp
 View(multitemp)
+
 # 1992 istogramma
 ggplot(multitemp, aes(x=Classe, y=percent_1992, color=Classe)) +
 geom_bar(stat="identity", fill="blue")
