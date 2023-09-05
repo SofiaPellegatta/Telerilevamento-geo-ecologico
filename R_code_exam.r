@@ -511,3 +511,76 @@ ggtitle("deviazione standard NIR 1994")
 (plot1 + plot2) / (plot3 + plot4)
 dev.off()
 
+
+# PRINCIPAL COMPONENT ANALYSIS
+library(raster)
+library(RStoolbox)
+library(ggplot2)
+library(patchwork)
+library(viridis)
+
+setwd("C:/Users/sofia/Desktop/prova")
+
+# importo immagine 
+
+l2023 <- brick("l2023NIR_clean.png")
+l2013 <- brick("l2013NIR_clean.png")
+l2001 <- brick("l2001NIR_clean.png")
+l1994 <- brick("l1994NIR_clean.png")
+
+# passiamo da 3 layer R G B delle bande, a una sola componente principale che compatta le info:
+# ANALISI MULTIVARIATA
+l2023_pca <- rasterPCA(l2023)
+l2023_pca 
+
+# summery del modello delle componenti della PCA
+summary(l2023_pca$model)
+
+#Importance of components:
+#                           Comp.1     Comp.2      Comp.3
+#Standard deviation     108.4995403 42.4795327 8.715672254
+#Proportion of Variance   0.8622628  0.1321732 0.005563981
+#Cumulative Proportion    0.8622628  0.9944360 1.000000000
+
+# plot 3 bande 
+plot(l2023_pca$map) 
+
+# plot delle 3 componenti:
+pc1 <- l2023_pca$map$PC1
+pc2 <- l2023_pca$map$PC2
+pc3 <- l2023_pca$map$PC3 
+
+# plottiamo le 3 componenti insieme
+g1 <- ggplot() +
+geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) +
+scale_fill_viridis(option = "magma")
+
+g2 <- ggplot() +
+geom_raster(pc2, mapping = aes(x=x, y=y, fill=PC2)) +
+scale_fill_viridis(option = "magma")
+
+g3 <- ggplot() +
+geom_raster(pc3, mapping = aes(x=x, y=y, fill=PC3)) +
+scale_fill_viridis(option = "magma")
+
+g1 + g2 + g3
+
+
+# calcolo della variabilità su una delle componenti: PC1
+sd_pc1 <- focal(pc1, matrix(1/9, 3, 3), fun=sd)
+sd_pc1
+
+# plot della deviazione standard della PC1
+ggplot() + 
+geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) + 
+scale_fill_viridis(option = "magma")
+
+# plottiamo le immagini tutte insieme
+im1 <- ggRGB(l2023, 1, 2, 3)  # immagine originale
+im2 <- ggplot() +
+geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) # prima componente pricipale
+im3 <- ggplot() + 
+geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis(option = "magma") # ggplot della sd della prima componente
+
+im1 + im2 + im3
