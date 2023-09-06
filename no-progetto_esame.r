@@ -272,3 +272,24 @@ l2016_64
 path <- "C:/Users/sofia/Desktop/prova/l2016_64.tif"
 writeRaster(l2016_64, filename = path, format = "GTiff")
 plotRGB(l2016_64, r=3, g=2, b=1, stretch="lin")
+
+
+# plot delle 3 componenti:
+pc1 <- l2023_pca$map$PC1
+pc2 <- l2023_pca$map$PC2
+pc3 <- l2023_pca$map$PC3 
+
+# plottiamo le 3 componenti insieme
+g1 <- ggplot() +
+geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) +
+scale_fill_viridis(option = "magma")
+
+g2 <- ggplot() +
+geom_raster(pc2, mapping = aes(x=x, y=y, fill=PC2)) +
+scale_fill_viridis(option = "magma")
+
+g3 <- ggplot() +
+geom_raster(pc3, mapping = aes(x=x, y=y, fill=PC3)) +
+scale_fill_viridis(option = "magma")
+
+g1 + g2 + g3

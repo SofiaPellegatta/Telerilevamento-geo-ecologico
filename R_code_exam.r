@@ -256,11 +256,11 @@ png("l2023NIR.png")
 plotRGB(l2023, r=4, g=3, b=2, stretch="lin")
 dev.off()
 
-# Leggi l'immagine
+# Leggo l'immagine
 input <- image_read("l2023NIR.png")
-# Rimuovi i bordi bianchi
+# Rimuovo i bordi bianchi
 output_image <- image_trim(input)
-# Salva l'immagine come PNG
+# Salvo l'immagine come PNG
 image_write(output_image, "l2023NIR_clean.png")
 
 # importo la nuova immagine PNG
@@ -528,6 +528,7 @@ l2013 <- brick("l2013NIR_clean.png")
 l2001 <- brick("l2001NIR_clean.png")
 l1994 <- brick("l1994NIR_clean.png")
 
+#### 2023 ####
 # passiamo da 3 layer R G B delle bande, a una sola componente principale che compatta le info:
 # ANALISI MULTIVARIATA
 l2023_pca <- rasterPCA(l2023)
@@ -542,15 +543,12 @@ summary(l2023_pca$model)
 #Proportion of Variance   0.8622628  0.1321732 0.005563981
 #Cumulative Proportion    0.8622628  0.9944360 1.000000000
 
-# plot 3 bande 
-plot(l2023_pca$map) 
-
 # plot delle 3 componenti:
+#png("3comp_2023.png") è brutto è meglio uno screen
 pc1 <- l2023_pca$map$PC1
 pc2 <- l2023_pca$map$PC2
 pc3 <- l2023_pca$map$PC3 
 
-# plottiamo le 3 componenti insieme
 g1 <- ggplot() +
 geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) +
 scale_fill_viridis(option = "magma")
@@ -564,7 +562,7 @@ geom_raster(pc3, mapping = aes(x=x, y=y, fill=PC3)) +
 scale_fill_viridis(option = "magma")
 
 g1 + g2 + g3
-
+dev.off()
 
 # calcolo della variabilità su una delle componenti: PC1
 sd_pc1 <- focal(pc1, matrix(1/9, 3, 3), fun=sd)
@@ -574,8 +572,10 @@ sd_pc1
 ggplot() + 
 geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) + 
 scale_fill_viridis(option = "magma")
+dev.off()
 
 # plottiamo le immagini tutte insieme
+png("comparisonpc1_2023.png")
 im1 <- ggRGB(l2023, 1, 2, 3)  # immagine originale
 im2 <- ggplot() +
 geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) # prima componente pricipale
@@ -584,3 +584,179 @@ geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) +
 scale_fill_viridis(option = "magma") # ggplot della sd della prima componente
 
 im1 + im2 + im3
+dev.off()
+
+#### 2013 ####
+# passiamo da 3 layer R G B delle bande, a una sola componente principale che compatta le info:
+# ANALISI MULTIVARIATA
+l2013_pca <- rasterPCA(l2013)
+l2013_pca 
+
+# summery del modello delle componenti della PCA
+summary(l2013_pca$model)
+
+#Importance of components:
+#                          Comp.1     Comp.2      Comp.3
+#Standard deviation     91.3748183 42.3400195 10.99470998
+#Proportion of Variance  0.8135461  0.1746752  0.01177868
+#Cumulative Proportion   0.8135461  0.9882213  1.00000000
+
+# plot delle 3 componenti:
+pc1 <- l2013_pca$map$PC1
+pc2 <- l2013_pca$map$PC2
+pc3 <- l2013_pca$map$PC3 
+
+g1 <- ggplot() +
+geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) +
+scale_fill_viridis(option = "magma")
+
+g2 <- ggplot() +
+geom_raster(pc2, mapping = aes(x=x, y=y, fill=PC2)) +
+scale_fill_viridis(option = "magma")
+
+g3 <- ggplot() +
+geom_raster(pc3, mapping = aes(x=x, y=y, fill=PC3)) +
+scale_fill_viridis(option = "magma")
+
+g1 + g2 + g3
+dev.off()
+
+# calcolo della variabilità su una delle componenti: PC1
+sd_pc1 <- focal(pc1, matrix(1/9, 3, 3), fun=sd)
+sd_pc1
+
+# plot della deviazione standard della PC1
+ggplot() + 
+geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) + 
+scale_fill_viridis(option = "magma")
+dev.off()
+
+# plottiamo le immagini tutte insieme
+png("comparisonpc1_2013.png")
+im1 <- ggRGB(l2013, 1, 2, 3)  # immagine originale
+im2 <- ggplot() +
+geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) # prima componente pricipale
+im3 <- ggplot() + 
+geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis(option = "magma") # ggplot della sd della prima componente
+
+im1 + im2 + im3
+dev.off()
+
+
+
+#### 2001 ####
+# passiamo da 3 layer R G B delle bande, a una sola componente principale che compatta le info:
+# ANALISI MULTIVARIATA
+l2001_pca <- rasterPCA(l2001)
+l2001_pca 
+
+# summery del modello delle componenti della PCA
+summary(l2001_pca$model)
+
+#Importance of components:
+#                          Comp.1     Comp.2      Comp.3
+#Standard deviation     81.8675549 39.1885987 12.55946637
+#Proportion of Variance  0.7982932  0.1829188  0.01878803
+#Cumulative Proportion   0.7982932  0.9812120  1.00000000
+
+# plot delle 3 componenti:
+pc1 <- l2001_pca$map$PC1
+pc2 <- l2001_pca$map$PC2
+pc3 <- l2001_pca$map$PC3 
+
+g1 <- ggplot() +
+geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) +
+scale_fill_viridis(option = "magma")
+
+g2 <- ggplot() +
+geom_raster(pc2, mapping = aes(x=x, y=y, fill=PC2)) +
+scale_fill_viridis(option = "magma")
+
+g3 <- ggplot() +
+geom_raster(pc3, mapping = aes(x=x, y=y, fill=PC3)) +
+scale_fill_viridis(option = "magma")
+
+g1 + g2 + g3
+dev.off()
+
+# calcolo della variabilità su una delle componenti: PC1
+sd_pc1 <- focal(pc1, matrix(1/9, 3, 3), fun=sd)
+sd_pc1
+
+# plot della deviazione standard della PC1
+ggplot() + 
+geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) + 
+scale_fill_viridis(option = "magma")
+dev.off()
+
+# plottiamo le immagini tutte insieme
+png("comparisonpc1_2001.png")
+im1 <- ggRGB(l2001, 1, 2, 3)  # immagine originale
+im2 <- ggplot() +
+geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) # prima componente pricipale
+im3 <- ggplot() + 
+geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis(option = "magma") # ggplot della sd della prima componente
+
+im1 + im2 + im3
+dev.off()
+
+
+#### 1994 ####
+# passiamo da 3 layer R G B delle bande, a una sola componente principale che compatta le info:
+# ANALISI MULTIVARIATA
+l1994_pca <- rasterPCA(l1994)
+l1994_pca 
+
+# summery del modello delle componenti della PCA
+summary(l1994_pca$model)
+
+#Importance of components:
+#                         Comp.1     Comp.2      Comp.3
+#Standard deviation     66.8237720 38.8173719 15.20299325
+#Proportion of Variance  0.7198412  0.2428997  0.03725915
+#Cumulative Proportion   0.7198412  0.9627409  1.00000000
+> 
+
+# plot delle 3 componenti:
+pc1 <- l1994_pca$map$PC1
+pc2 <- l1994_pca$map$PC2
+pc3 <- l1994_pca$map$PC3 
+
+g1 <- ggplot() +
+geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) +
+scale_fill_viridis(option = "magma")
+
+g2 <- ggplot() +
+geom_raster(pc2, mapping = aes(x=x, y=y, fill=PC2)) +
+scale_fill_viridis(option = "magma")
+
+g3 <- ggplot() +
+geom_raster(pc3, mapping = aes(x=x, y=y, fill=PC3)) +
+scale_fill_viridis(option = "magma")
+
+g1 + g2 + g3
+dev.off()
+
+# calcolo della variabilità su una delle componenti: PC1
+sd_pc1 <- focal(pc1, matrix(1/9, 3, 3), fun=sd)
+sd_pc1
+
+# plot della deviazione standard della PC1
+ggplot() + 
+geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) + 
+scale_fill_viridis(option = "magma")
+dev.off()
+
+# plottiamo le immagini tutte insieme
+png("comparisonpc1_1994.png")
+im1 <- ggRGB(l1994, 1, 2, 3)  # immagine originale
+im2 <- ggplot() +
+geom_raster(pc1, mapping = aes(x=x, y=y, fill=PC1)) # prima componente pricipale
+im3 <- ggplot() + 
+geom_raster(sd_pc1, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis(option = "magma") # ggplot della sd della prima componente
+
+im1 + im2 + im3
+dev.off()
