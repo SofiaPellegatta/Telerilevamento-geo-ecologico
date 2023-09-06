@@ -31,7 +31,7 @@ library(rgdal)
 #Band 4 - NIR
 
 
-#___UNISCO LE 4 BANDE IN UN'UNICA IMMAGINE A 4 LAYER________________________________________________________
+#___UNISCO LE 4 BANDE IN UN'UNICA IMMAGINE A 4 LAYER_____
 
 # IMMAGINE 2023 ROW 63
 # carico le singole bande:
@@ -46,11 +46,8 @@ l2023_63
 
 # salvo il file ottenuto
 path <- "C:/Users/sofia/Desktop/prova/l2023_63.tif"
-
 writeRaster(l2023_63, filename = path, format = "GTiff")
-
-# eventuali plottaggi preliminari per controllare se l'immagine va bene:
-#plot(l2023_63)
+#plot
 plotRGB(l2023_63, r=3, g=2, b=1, stretch="lin") 
 
 
@@ -197,10 +194,10 @@ plotRGB(l2023, r=4, g=3, b=2, stretch="lin")
 dev.off()
 
 # salvo il plot RGB fatto con ggplot
-p94 <- ggRGB(l1994, 1, 2, 3, stretch = "lin")
-p01 <- ggRGB(l2001, 1, 2, 3, stretch = "lin")
-p13 <- ggRGB(l2013, 1, 2, 3, stretch = "lin")
-p23 <- ggRGB(l2023, 1, 2, 3, stretch = "lin")
+p94 <- ggRGB(l1994, 3, 2, 1, stretch = "lin")
+p01 <- ggRGB(l2001, 3, 2, 1, stretch = "lin")
+p13 <- ggRGB(l2013, 3, 2, 1, stretch = "lin")
+p23 <- ggRGB(l2023, 3, 2, 1, stretch = "lin")
 pRGB <- (p94 + p01) / (p13 + p23)
 plot(pRGB)
 ggsave(filename = "ggRRGB_amazon_4y.png", plot = pRGB)
@@ -717,7 +714,7 @@ summary(l1994_pca$model)
 #Standard deviation     66.8237720 38.8173719 15.20299325
 #Proportion of Variance  0.7198412  0.2428997  0.03725915
 #Cumulative Proportion   0.7198412  0.9627409  1.00000000
-> 
+
 
 # plot delle 3 componenti:
 pc1 <- l1994_pca$map$PC1
