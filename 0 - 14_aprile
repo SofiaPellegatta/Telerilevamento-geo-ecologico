@@ -1,19 +1,1 @@
-# classification of ...
-library(raster)
 
-setwd("/percorso/")
-
-plotRGB(so, 1, 2, 3, stretch="lin")
-
-trasforare tutti i colori dell'img in una serie di valori continui
-usiamo funzione get values che prende valori dall'img e li rimette in forma tabellare (matrici).
-
-getvalues
-kmeans
-setvalues
-
-usiamo funzione frequenza su R: freq(coclass)
-
-totale pixel dell'immagine lo ricavo scrivendo suo nome + invio su R, c'è la voce dimensions
-
-le classi come vengono create?
